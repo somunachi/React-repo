@@ -81,45 +81,41 @@ const People = [
 const Main = () => {
   const [users, setUsers] = useState();
 
-  return (
+  const filteredData = People.filter((person) => {
+    const personName = `${person.title}. ${person.firstName} ${person.lastName}`;
+    return personName?.toLowerCase().includes(users?.toLowerCase());
+  });
 
-      <body>
+  const listItems = filteredData.map((person) => (
+
+      <div className="person" value={users}>
         <div>
-        <input type="text" placeholder='Search by name...' size={150} onInput={(e)=>{setUsers(e.target.value)}}/>
+          <img src={person.picture} alt="display pic"  className='profileImage'/>
         </div>
-      
-      <div className='container'>
-
-      
-        {People.filter((person)=>{
-            if (users === ' '){
-                return person;
-              }
-          
-            if (person.firstName.toLowerCase().includes(users)){
-            return person;
-          }
-         
-          }).map((person, key)=>{
-          let personName = `${person.title}. ${person.firstName} ${person.lastName}`;
-          return <div className='person' value={users} key={key}> 
-            <div>
-              <img src={person.picture} alt=""  className='profileImage'/>
-            </div>
-           <div>
-           <p>{person.id}</p> 
-           <p className='personName'><b>{personName}</b></p>
-           </div>
-          </div>
-        })}
-       
-    
+        <div>
+          <p>{person.id}</p>
+          <p>{`${person.title}. ${person.firstName} ${person.lastName}`}</p>
+        </div>
       </div>
-      
-       
-      </body>
+  ));
 
-     
+  return (
+   <body>
+     <div>
+      <input
+        type="text"
+        value={users}
+        onInput={(e) => setUsers(e.target.value)}
+        placeholder="Search by name..."
+        className="input"
+        size={150}
+      />
+      </div>
+
+      <div >
+      <div className='container'>{listItems}</div>
+    </div>
+   </body>
   )
 }
 
